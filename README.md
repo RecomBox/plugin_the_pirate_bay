@@ -1,3 +1,27 @@
+## Introduction
+This is a template that help you build a plugin for [recombox_plugin_provider](https://github.com/RecomBox/recombox_plugin_provider).
+
+We use [boa_engine](https://docs.rs/boa_engine/latest/boa_engine/) to load plugin that compiled to javascript using this template `[Rust <-bridge-> Javascript]` .
+
+So be prepared to build in a very sandbox and strict environment.
+
+Note: Most additional methods and types are available in
+```typescript
+// Global Types
+import "@plugin_provider/global/types/..."
+
+// Network, File IO, ...etc
+import "@plugin_provider/method/..."
+```
+When testing and build. Most of the methods used different internal injected functions (It's handled. So don't worry about it.).
+
+
+Example: 
+- During Test: `fetch` is use for networking.
+- During Build: `reqwest` is injected from rust side.
+
+
+
 ## Installation
 Make sure you have the following installed:
 - [NodeJS](https://nodejs.org/)
@@ -7,16 +31,9 @@ Make sure you have the following installed:
 ## Making Plugins
 Clone or Fork this repository
 ```bash
-git clone https://github.com/RecomBox/recombox_plugin_provider
-cd recombox_plugin_provider
+git clone https://github.com/RecomBox/recombox_plugin_template
+cd recombox_plugin_template
 ```
-
-Go to `plugin_template` directory
-```bash
-cd plugins/plugin_template
-```
-- You can copy the template and rename the directory to your pluign name.
-- Make sure to add your plugin to another repository and add it to `/plugins_manifest.json`
 
 Install dependencies:
 ```bash
@@ -24,10 +41,10 @@ Install dependencies:
 bun install
 ```
 
-**[Required]** export functions inside `plugin.ts`:
+**[Required]** export functions inside `src/plugin.ts`:
 ```typescript
-import type * as get_sources_types from "@plugin_provider/global_types/get_sources";
-import type * as get_torrents_types from "@plugin_provider/global_types/get_torrents";
+import type * as get_sources_types from "@plugin_provider/global/types/get_sources";
+import type * as get_torrents_types from "@plugin_provider/global/types/get_torrents";
 
 export function get_sources(input_payload: get_sources_types.InputPayload): get_sources_types.OutputPayload {...}
 export function get_torrents(input_payload: get_torrents_types.InputPayload): get_torrents_types.OutputPayload {...}
@@ -49,8 +66,7 @@ bun run build
 
 
 Test Plugin;
-- **[Required]** rebuild the plugin using build command from above everytime you make changes to the plugin.
-- Write and modify test value inside rust `test.ts` of the plugin directory
+- Write and modify test inside `test.ts`
 ```bash
 # Or use any runtime you want
 bun run test

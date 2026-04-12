@@ -10,7 +10,7 @@ import request from "@plugin_provider/method/request";
 
 export default async function get(input_payload: InputPayload): Promise<OutputPayload> {
 
-    let query_term = input_payload.search ? input_payload.search.trim() : input_payload.id;
+    let query_term = input_payload.search?.trim() ? input_payload.search.trim() : input_payload.title;
 
     let url = `https://apibay.org/q.php?q=${encodeURIComponent(query_term)}&cat=205`
 

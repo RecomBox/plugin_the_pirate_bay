@@ -12,7 +12,7 @@ export default async function get(input_payload: InputPayload): Promise<OutputPa
 
     let query_term = input_payload.search?.trim() ? input_payload.search.trim() : input_payload.title;
 
-    let url = `https://apibay.org/q.php?q=${encodeURIComponent(query_term)}&cat=201`
+    let url = `https://apibay.org/q.php?q=${encodeURIComponent(query_term)}&cat=0`
 
     let res = await new request({
         url: url,

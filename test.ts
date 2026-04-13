@@ -6,8 +6,9 @@ describe("get_sources", () => {
     it("should fetch sources", async () => {
         let result = await get_sources({
             id: "test",
-            title: "Ready Or Not: Here I Come",
-            source: "movies",
+            title: "one piece",
+            title_secondary: "one piece",
+            source: "anime",
             season: 1,
             episode: 1,
             page: 1

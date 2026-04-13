@@ -19,10 +19,10 @@ export async function get_sources(input_payload: get_sources_types.InputPayload)
     }
 }
 
-// export async function get_torrents(input_payload: get_torrents_types.InputPayload): Promise<get_torrents_types.OutputPayload> {
-//     if (input_payload.page > 1) return [];
+export async function get_torrents(input_payload: get_torrents_types.InputPayload): Promise<get_torrents_types.OutputPayload> {
+    if (input_payload.page > 1) return [];
     
-//     const get_torrents = await import("./get_torrents");
+    const get_torrents = await import("./get_torrents");
 
-//     return await get_torrents.default(input_payload);
-// }
+    return await get_torrents.default(input_payload);
+}

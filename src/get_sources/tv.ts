@@ -10,7 +10,7 @@ import { IGNORE_TITLE } from ".";
 
 export default async function get(input_payload: InputPayload): Promise<OutputPayload> {
 
-    llet prefer_title = input_payload.title_secondary ?? input_payload.title;
+    let prefer_title = input_payload.title_secondary ?? input_payload.title;
 
     let season = input_payload.season.toString().padStart(2, "0");
     let episode = input_payload.episode.toString().padStart(2, "0");

@@ -1,6 +1,6 @@
 {
   "name": "plugin_template",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_ENV=production node esbuild.config.js",

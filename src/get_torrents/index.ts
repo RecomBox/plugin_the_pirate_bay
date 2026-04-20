@@ -21,19 +21,19 @@ import request from "@plugin_provider/method/request";
 //     "udp://tracker.internetwarriors.net:1337",
 // ]
 
-async function extractPrintTrackers(id: string): Promise<string[]> {
-    let url = `https://apibay.org/t.php?id=${id}`
-
+async function extractTrackers(): Promise<string[]> {
+    let url = `https://thepiratebay.org/static/main.js`
+    
     let res = await new request({
         url: url,
         method: "get",
     }).send();
 
-    const data = res.output_payload?.body;
+    const data = res.body_text();
 
 
     const funcRegex = /function\s+print_trackers\s*\([^)]*\)\s*{([\s\S]*?)}/;
-    const funcMatch = funcRegex.exec(source);
+    const funcMatch = funcRegex.exec(data);
 
     if (!funcMatch || funcMatch[1] === undefined) {
         return []; // No print_trackers found
@@ -57,6 +57,7 @@ async function extractPrintTrackers(id: string): Promise<string[]> {
 
 export default async function(input_payload: InputPayload): Promise<OutputPayload> {
 
+    let trackers = await extractTrackers();
 
     let url = `https://apibay.org/t.php?id=${input_payload.id}`
 
@@ -68,9 +69,11 @@ export default async function(input_payload: InputPayload): Promise<OutputPayloa
     const data = res.body_json();
 
 
-    let info_hash = data.info_hash;
+    
     let title =  data.name;
-    const torrent_url = `magnet:?xt=urn:btih:${info_hash}&dn=${encodeURIComponent(title)}${TRACKERS.map(tr => `&tr=${encodeURIComponent(tr)}`).join("")}`;
+    
+    let info_hash = data.info_hash;
+    const torrent_url = `magnet:?xt=urn:btih:${info_hash}&dn=${encodeURIComponent(title)}${trackers.map(tr => `&tr=${encodeURIComponent(tr)}`).join("")}`;
 
     
     return [{

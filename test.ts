@@ -5,13 +5,14 @@ import { get_sources, get_torrents } from "./src/plugin";
 describe("get_sources", () => {
     it("should fetch sources", async () => {
         let result = await get_sources({
-            id: "test",
+            id: "tt10872600",
             title: "one",
             title_secondary: "one",
-            source: "anime",
+            source: "tv",
             season: 1,
             episode: 1,
-            page: 1
+            page: 1,
+            search: ""
         });
 
         console.log(result);

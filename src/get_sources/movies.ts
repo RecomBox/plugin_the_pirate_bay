@@ -10,7 +10,7 @@ import { IGNORE_TITLE } from ".";
 
 export default async function get(input_payload: InputPayload): Promise<OutputPayload> {
 
-    let query_term = input_payload.search?.trim() ? input_payload.search.trim() : input_payload.title;
+    let query_term = input_payload.search?.trim() ? input_payload.search.trim() : input_payload.id;
 
     let url = `https://apibay.org/q.php?q=${encodeURIComponent(query_term)}&cat=0`
 
@@ -19,15 +19,18 @@ export default async function get(input_payload: InputPayload): Promise<OutputPa
         method: "get",
     }).send();
 
-    const data = res.body_json();
+    let data = res.body_json();
+
+    data = data.filter((t:any) => parseInt(t.seeders||0) > 0);
+    data.sort((a:any, b:any) => parseInt(b.seeders||0) - parseInt(a.seeders||0));
 
     let output_payload = [];
-    for (let i = 0; i < data.length; i++) {
-        if ((data[i].name??"" as string).toLowerCase().includes(IGNORE_TITLE)) continue;
+    for (const item of data) {
+        if ((item.name||"" as string).toLowerCase().includes(IGNORE_TITLE)) continue;
         
         output_payload.push({
-            id: data[i].id,
-            title: data[i].name,
+            id: item.id,
+            title: `${item.name} [seeders: ${parseInt(item.seeders)||0}]`,
         });
     }
     

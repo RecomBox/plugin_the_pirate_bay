@@ -68,9 +68,8 @@ export default async function(input_payload: InputPayload): Promise<OutputPayloa
 
     const data = res.body_json();
 
-
     
-    let title =  data.name;
+    let title =  `${data.name} [seeders: ${data.seeders||0}]`;
     
     let info_hash = data.info_hash;
     const torrent_url = `magnet:?xt=urn:btih:${info_hash}&dn=${encodeURIComponent(title)}${trackers.map(tr => `&tr=${encodeURIComponent(tr)}`).join("")}`;

@@ -29,7 +29,7 @@ export default async function get(input_payload: InputPayload): Promise<OutputPa
 
     let data = res.body_json();
 
-    data = data.filter((t:any) => parseInt(t.seeders||0) > 0);
+    // data = data.filter((t:any) => parseInt(t.seeders||0) > 0);
     data.sort((a:any, b:any) => parseInt(b.seeders||0) - parseInt(a.seeders||0));
     
     let output_payload = [];
